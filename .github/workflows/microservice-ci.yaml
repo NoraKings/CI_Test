@@ -24,3 +24,11 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ${{ inputs.service }} ./src/${{ inputs.service }}
+
+        
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
