@@ -1,1 +1,17 @@
+#mkdir my-repo && cd my-repo   # or cd into an existing empty folder you want to use
+#git init
+#git remote add origin https://github.com/onartey/test-repo/edit/main/.github/workflows/ci-trigger.yaml
+#git sparse-checkout init --cone
+#git sparse-checkout set src
+#git pull origin main#
 
+name: Microservices Trigger CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/microservice-ci.yaml
+    with:
+      service: frontend
