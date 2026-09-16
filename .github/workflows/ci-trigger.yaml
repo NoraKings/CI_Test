@@ -16,6 +16,20 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        service:
+          - frontend
+          - checkout
+          - cart
+          - productcatalog
+          - recommendation
+          - ad
+          - shipping
+          - currency
+          - payment
+          - email
+
     uses: ./.github/workflows/microservice-ci.yaml
     with:
-      service: adservice
+      service: ${{ matrix.service }}
