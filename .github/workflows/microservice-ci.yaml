@@ -20,6 +20,7 @@ jobs:
       - name: Echo service name
         run: |
           echo "Service: ${{ inputs.service }}"
+
       - name: Build Docker image
         run: |
-          docker build -t ${{ inputs.service }} .
+          docker build -t ${{ inputs.service }} ./src/${{ inputs.service }}
