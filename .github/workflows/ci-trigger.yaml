@@ -20,17 +20,16 @@ jobs:
       fail-fast: false
       matrix:
         service:
-          - frontend
-          - checkout
-          - cart
-          - productcatalog
-          - recommendation
-          - ad
-          - shipping
-          - currency
-          - payment
-          - email
-
+          -  frontend
+          - checkoutservice
+          - cartservice
+          - productcatalogservice
+          - recommendationservice
+          - adservice
+          - shippingservice
+          - currencyservice
+          - paymentservice
+          - emailservice
     uses: ./.github/workflows/microservice-ci.yaml
     with:
       service: ${{ matrix.service }}
