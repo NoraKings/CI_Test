@@ -28,11 +28,12 @@ jobs:
         run: |
           if [ -f "./src/${{ inputs.service }}/Dockerfile" ]; then
             DOCKERFILE_PATH="./src/${{ inputs.service }}/Dockerfile"
+            CONTEXT_PATH="./src/${{ inputs.service }}"
           else
             DOCKERFILE_PATH="./src/${{ inputs.service }}/src/Dockerfile"
+            CONTEXT_PATH="./src/${{ inputs.service }}/src"
           fi
-          docker build -t ${{ inputs.service }} -f "$DOCKERFILE_PATH" ./src/${{ inputs.service }}
-
+          docker build -t ${{ inputs.service }} -f "$DOCKERFILE_PATH" "$CONTEXT_PATH"
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
