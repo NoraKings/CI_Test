@@ -9,27 +9,44 @@ name: Microservices Trigger CI
 
 on:
   workflow_dispatch:
-
+  push: 
+    branches: main
+  pull_request:
+    branches: main
+    
 permissions:
   contents: read
   packages: write
 
 jobs:
+  detect-changes: 
+    runs-on: ubuntu_latest
+    outputs:
+      services: ${[ step.filter.output.changes }}
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: dorny/path-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend: 'src/frontend/**'
+            checkoutservice: 'src/checkoutservice/**'
+            cartservice: 'src/cartservice/**'
+            productcatalogservice: 'src/productcatalogservice/**'
+            recommendationservice: 'src/recommendationservice/**'
+            adservice: 'src/adservice/**'
+            shippingservice: 'src/shippingservice/**'
+            currencyservice: 'src/currencyservice/**'
+            paymentservice: 'src/paymentservice/**'
+            emailservice: 'src/emailservice/**'
+      
   build:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.services != '[]' }}
     strategy:
       fail-fast: false
       matrix:
-        service:
-          -  frontend
-          - checkoutservice
-          - cartservice
-          - productcatalogservice
-          - recommendationservice
-          - adservice
-          - shippingservice
-          - currencyservice
-          - paymentservice
-          - emailservice
+        service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
     uses: ./.github/workflows/microservice-ci.yaml
     with:
       service: ${{ matrix.service }}
