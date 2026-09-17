@@ -40,11 +40,12 @@ jobs:
         with:
             image-ref: ${{ inputs.service }}
             format: table
-            exit-code: '0'
+            exit-code: '1'
             ignore-unfixed: true
             severity: CRITICAL,HIGH
 
       - name: Push image
         run: |
-          docker tag ${{ inputs.service }} ghcr.io/${{ github.repository_owner }}/microservices-demo/${{ inputs.service }}:latest
-          docker push ghcr.io/${{ github.repository_owner }}/microservices-demo/${{ inputs.service }}:latest
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          docker tag ${{ inputs.service }} ghcr.io/$OWNER_LC/microservices-demo/${{ inputs.service }}:latest
+          docker push ghcr.io/$OWNER_LC/microservices-demo/${{ inputs.service }}:latest
