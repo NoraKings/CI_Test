@@ -28,7 +28,6 @@ jobs:
       - uses: dorny/paths-filter@v3
         id: filter
         with:
-          base: main
           filters: |
             frontend: 'src/frontend/**'
             checkoutservice: 'src/checkoutservice/**'
@@ -47,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
+        service: ${{ fromJSON(needs.detect-changes.outputs.services || '[]') }}
     uses: ./.github/workflows/microservice-ci.yaml
     with:
       service: ${{ matrix.service }}
