@@ -22,7 +22,7 @@ jobs:
   detect-changes: 
     runs-on: ubuntu-latest
     outputs:
-      services: ${[ step.filter.output.changes }}
+      services: ${{ steps.filter.outputs.changes }}
     steps: 
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
